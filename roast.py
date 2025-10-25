@@ -33,6 +33,7 @@ def read_temp():
 
 
 def toggle_relay(cmd):
+    global heat_on
     if cmd == "off":
         GPIO.output(HEAT_RELAY, GPIO.HIGH)
         heat_on = False
