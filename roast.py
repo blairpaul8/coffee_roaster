@@ -56,10 +56,10 @@ try:
         temp_f = (temp * 9.0 / 5.0) + 32
         print(f"Temperature: {temp_f:.2f} F")
 
-        if temp_f > 420.00 and heat_on:
+        if temp_f > 460.00 and heat_on:
             toggle_relay("off")
             print("Heater Off")
-        elif temp_f < 390.00 and not heat_on:
+        elif temp_f < 420.00 and not heat_on:
             toggle_relay("on")
             print("Heater On.")
         
