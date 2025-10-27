@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 import spidev
-import time 
+import time
 import RPi.GPIO as GPIO
-import time 
+import time
 
 ## setup SPI for reading MAX6675
 spi = spidev.SpiDev()
@@ -16,9 +16,10 @@ HEAT_RELAY = 27
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(HEAT_RELAY, GPIO.OUT)
 
-## Set Heat to off 
+## Set Heat to off
 GPIO.output(HEAT_RELAY, GPIO.HIGH)
 heat_on = False
+
 
 def read_temp():
     raw = spi.xfer2([0x00, 0x00])
@@ -27,7 +28,7 @@ def read_temp():
     if value & 0x004:
         return None
 
-    value >>= 3 
+    value >>= 3
     temp_c = value * 0.25
     return temp_c
 
@@ -44,11 +45,10 @@ def toggle_relay(cmd):
         print("Toggle Relay Failed")
 
 
-
 try:
     while True:
         temp = read_temp()
-        
+
         ## Failed to get a temp reading
         if temp is None:
             print("Not Connected")
@@ -62,15 +62,10 @@ try:
         elif temp_f < 420.00 and not heat_on:
             toggle_relay("on")
             print("Heater On.")
-        
 
         ## May need to adjust sleep time
         time.sleep(1)
 finally:
-
     GPIO.output(HEAT_RELAY, GPIO.HIGH)
     GPIO.cleanup()
     spi.close()
-
-
-
