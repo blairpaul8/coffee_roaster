@@ -24,18 +24,18 @@ heat_on = False
 
 # --- Setpoint stages ---
 setpoints = {
-    "preheat": (360, 370),
-    "drying": (340, 380),
-    "maillard": (390, 415),
-    "development": (430, 450),
+    "pre": (360, 370),
+    "dry": (360, 380),
+    "brown": (390, 415),
+    "dev": (440, 460),
 }
 
-current_stage = "preheat"
+current_stage = "pre"
 low, high = setpoints[current_stage]
 
 # --- File setup for logging ---
 timestamp = time.strftime("%Y%m%d_%H%M%S")
-csv_filename = f"roast_{timestamp}.csv"
+csv_filename = f"roast_csv/roast_{timestamp}.csv"
 csv_file = open(csv_filename, "w", newline="")
 csv_writer = csv.writer(csv_file)
 csv_writer.writerow(["time_s", "temp_F", "heat_on", "stage"])  # header
