@@ -24,14 +24,14 @@ heat_on = False
 
 # Setpoint stages
 setpoints = {
-    "pre": (360, 370),
-    "dry": (360, 380),
-    "brown": (390, 415),
-    "dev": (440, 460),
+    "pre": 360,
+    "dry": 370,
+    "brown": 400,
+    "dev": 445,
 }
 
 current_stage = "pre"
-low, high = setpoints[current_stage]
+low = setpoints[current_stage]
 
 # File setup for logging
 timestamp = time.strftime("%Y%m%d_%H%M%S")
@@ -41,7 +41,7 @@ csv_writer = csv.writer(csv_file)
 csv_writer.writerow(["time_s", "temp_F", "heat_on", "stage"])  # header
 
 print(f"Logging to {csv_filename}")
-print(f"Starting in stage: {current_stage} ({low}–{high} °F)")
+print(f"Starting in stage: {current_stage} ({low} °F)")
 print("Commands: stage <name>, on, off, exit")
 
 
@@ -84,7 +84,7 @@ try:
 
         if temp_f < low and not heat_on:
             toggle_relay("on")
-        elif temp_f > high and heat_on:
+        elif temp_f > low and heat_on:
             toggle_relay("off")
 
         # Log data
@@ -104,8 +104,8 @@ try:
                 parts = cmd.split(maxsplit=1)
                 if len(parts) == 2 and parts[1] in setpoints:
                     current_stage = parts[1]
-                    low, high = setpoints[current_stage]
-                    print(f"→ Switched to stage: {current_stage} ({low}–{high} °F)")
+                    low = setpoints[current_stage]
+                    print(f"→ Switched to stage: {current_stage} ({low} °F)")
                 else:
                     print("Unknown or missing stage name.")
             elif cmd == "off":
