@@ -19,15 +19,15 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(HEAT_RELAY, GPIO.OUT)
 
 # Initial relay state
-GPIO.output(HEAT_RELAY, GPIO.HIGH)
-heat_on = False
+GPIO.output(HEAT_RELAY, GPIO.LOW)
+heat_on = True
 
 # Setpoint stages
 setpoints = {
     "pre": 360,
     "dry": 370,
     "brown": 400,
-    "dev": 445,
+    "dev": 455,
 }
 
 current_stage = "pre"
@@ -82,10 +82,10 @@ try:
 
         temp_f = temp_c * 9 / 5 + 32
 
-        if temp_f < low and not heat_on:
-            toggle_relay("on")
-        elif temp_f > low and heat_on:
+        if temp_f > low and heat_on:
             toggle_relay("off")
+            time.sleep(1)
+            toggle_relay("on")
 
         # Log data
         csv_writer.writerow(
