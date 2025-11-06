@@ -27,7 +27,7 @@ setpoints = {
     "pre": 360,
     "dry": 370,
     "brown": 400,
-    "dev": 455,
+    "dev": 440,
 }
 
 current_stage = "pre"
