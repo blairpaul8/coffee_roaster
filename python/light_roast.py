@@ -7,6 +7,7 @@ import sys
 import select
 import csv
 
+
 # SPI setup for MAX6675
 spi = spidev.SpiDev()
 spi.open(0, 0)

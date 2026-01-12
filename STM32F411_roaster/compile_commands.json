@@ -1,0 +1,46 @@
+[
+  {
+    "file": "src/main.c",
+    "arguments": [
+      "arm-none-eabi-gcc",
+      "-mcpu=cortex-m4",
+      "-mthumb",
+      "-mfpu=fpv4-sp-d16",
+      "-mfloat-abi=softfp",
+      "-O0",
+      "-g",
+      "-Wall",
+      "-Isrc",
+      "-Iinclude",
+      "-ISTM32Cube_FW_F4_V1.28.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+      "-ISTM32Cube_FW_F4_V1.28.0/Drivers/CMSIS/Include",
+      "src/main.c",
+      "-o",
+      "blink.elf"
+    ],
+    "directory": "/home/charlie/Documents/02_Coding_Practice/coffee_roaster/STM32F411_roaster",
+    "output": "blink.elf"
+  },
+  {
+    "file": "startup_stm32f411.s",
+    "arguments": [
+      "arm-none-eabi-gcc",
+      "-mcpu=cortex-m4",
+      "-mthumb",
+      "-mfpu=fpv4-sp-d16",
+      "-mfloat-abi=softfp",
+      "-O0",
+      "-g",
+      "-Wall",
+      "-Isrc",
+      "-Iinclude",
+      "-ISTM32Cube_FW_F4_V1.28.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+      "-ISTM32Cube_FW_F4_V1.28.0/Drivers/CMSIS/Include",
+      "startup_stm32f411.s",
+      "-o",
+      "blink.elf"
+    ],
+    "directory": "/home/charlie/Documents/02_Coding_Practice/coffee_roaster/STM32F411_roaster",
+    "output": "blink.elf"
+  }
+]
