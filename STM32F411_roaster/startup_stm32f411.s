@@ -14,30 +14,107 @@
 .extern _ebss
 
 .extern main
+.extern EXTI0_IRQHandler
 
 /* --------------------------------------------------------------------
  * Vector table
  * ------------------------------------------------------------------ */
 .section .isr_vector, "a", %progbits
 .align 2
-.word _estack            /* Initial stack pointer */
-.word Reset_Handler      /* Reset handler */
+.word _estack            /* Initial Stack Pointer */
+.word Reset_Handler      /* Reset Handler */
 
-/* Optional: basic fault handlers */
-.word Default_Handler    /* NMI */
-.word Default_Handler    /* HardFault */
-.word Default_Handler    /* MemManage */
-.word Default_Handler    /* BusFault */
-.word Default_Handler    /* UsageFault */
-.word 0
-.word 0
-.word 0
-.word 0
-.word Default_Handler    /* SVCall */
-.word Default_Handler    /* DebugMon */
-.word 0
-.word Default_Handler    /* PendSV */
-.word Default_Handler    /* SysTick */
+.word Default_Handler    /* NMI_Handler */
+.word Default_Handler    /* HardFault_Handler */
+.word Default_Handler    /* MemManage_Handler */
+.word Default_Handler    /* BusFault_Handler */
+.word Default_Handler    /* UsageFault_Handler */
+.word 0                  /* Reserved */
+.word 0                  /* Reserved */
+.word 0                  /* Reserved */
+.word 0                  /* Reserved */
+.word Default_Handler    /* SVCall_Handler */
+.word Default_Handler    /* DebugMon_Handler */
+.word 0                  /* Reserved */
+.word Default_Handler    /* PendSV_Handler */
+.word Default_Handler    /* SysTick_Handler */
+
+.word EXTI0_IRQHandler   /* EXTI Line0 Interrupt */
+
+.word Default_Handler    /* EXTI1 */
+.word Default_Handler    /* EXTI2 */
+.word Default_Handler    /* EXTI3 */
+.word Default_Handler    /* EXTI4 */
+.word Default_Handler    /* DMA1_Stream0 */
+.word Default_Handler    /* DMA1_Stream1 */
+.word Default_Handler    /* DMA1_Stream2 */
+.word Default_Handler    /* DMA1_Stream3 */
+.word Default_Handler    /* DMA1_Stream4 */
+.word Default_Handler    /* DMA1_Stream5 */
+.word Default_Handler    /* DMA1_Stream6 */
+.word Default_Handler    /* ADC */
+.word Default_Handler    /* CAN1_TX */
+.word Default_Handler    /* CAN1_RX0 */
+.word Default_Handler    /* CAN1_RX1 */
+.word Default_Handler    /* CAN1_SCE */
+.word Default_Handler    /* EXTI9_5 */
+.word Default_Handler    /* TIM1_BRK_TIM9 */
+.word Default_Handler    /* TIM1_UP_TIM10 */
+.word Default_Handler    /* TIM1_TRG_COM_TIM11 */
+.word Default_Handler    /* TIM1_CC */
+.word Default_Handler    /* TIM2 */
+.word Default_Handler    /* TIM3 */
+.word Default_Handler    /* TIM4 */
+.word Default_Handler    /* I2C1_EV */
+.word Default_Handler    /* I2C1_ER */
+.word Default_Handler    /* I2C2_EV */
+.word Default_Handler    /* I2C2_ER */
+.word Default_Handler    /* SPI1 */
+.word Default_Handler    /* SPI2 */
+.word Default_Handler    /* USART1 */
+.word Default_Handler    /* USART2 */
+.word Default_Handler    /* USART3 */
+.word Default_Handler    /* EXTI15_10 */
+.word Default_Handler    /* RTC_Alarm */
+.word Default_Handler    /* OTG_FS_WKUP */
+.word Default_Handler    /* TIM8_BRK_TIM12 */
+.word Default_Handler    /* TIM8_UP_TIM13 */
+.word Default_Handler    /* TIM8_TRG_COM_TIM14 */
+.word Default_Handler    /* TIM8_CC */
+.word Default_Handler    /* DMA1_Stream7 */
+.word Default_Handler    /* FMC */
+.word Default_Handler    /* SDIO */
+.word Default_Handler    /* TIM5 */
+.word Default_Handler    /* SPI3 */
+.word Default_Handler    /* UART4 */
+.word Default_Handler    /* UART5 */
+.word Default_Handler    /* TIM6_DAC */
+.word Default_Handler    /* TIM7 */
+.word Default_Handler    /* DMA2_Stream0 */
+.word Default_Handler    /* DMA2_Stream1 */
+.word Default_Handler    /* DMA2_Stream2 */
+.word Default_Handler    /* DMA2_Stream3 */
+.word Default_Handler    /* DMA2_Stream4 */
+.word Default_Handler    /* ETH */
+.word Default_Handler    /* ETH_WKUP */
+.word Default_Handler    /* CAN2_TX */
+.word Default_Handler    /* CAN2_RX0 */
+.word Default_Handler    /* CAN2_RX1 */
+.word Default_Handler    /* CAN2_SCE */
+.word Default_Handler    /* OTG_FS */
+.word Default_Handler    /* DMA2_Stream5 */
+.word Default_Handler    /* DMA2_Stream6 */
+.word Default_Handler    /* DMA2_Stream7 */
+.word Default_Handler    /* USART6 */
+.word Default_Handler    /* I2C3_EV */
+.word Default_Handler    /* I2C3_ER */
+.word Default_Handler    /* OTG_HS_EP1_OUT */
+.word Default_Handler    /* OTG_HS_EP1_IN */
+.word Default_Handler    /* OTG_HS_WKUP */
+.word Default_Handler    /* OTG_HS */
+.word Default_Handler    /* DCMI */
+.word Default_Handler    /* RNG */
+.word Default_Handler    /* FPU */
 
 /* --------------------------------------------------------------------
  * Reset handler

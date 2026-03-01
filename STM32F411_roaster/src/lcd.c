@@ -14,7 +14,7 @@
 #define FUNCTION_SET 0x38
 
 // Pulse the enable bit on the LCD1602
-void pulse_enable(LCD_Handle *lcd) {
+void LCD_pulse_enable(LCD_Handle *lcd) {
 
   GPIO_set(lcd->en);
 
@@ -39,7 +39,7 @@ void LCD_command(LCD_Handle *lcd, uint8_t cmd) {
     }
   }
 
-  pulse_enable(lcd);
+  LCD_pulse_enable(lcd);
 }
 
 void LCD_init(LCD_Handle *lcd) {
@@ -86,7 +86,7 @@ void LCD_write_char(LCD_Handle *lcd, uint8_t c) {
     }
   }
 
-  pulse_enable(lcd);
+  LCD_pulse_enable(lcd);
 
   GPIO_clear(lcd->rs);
   delay_ms(2);

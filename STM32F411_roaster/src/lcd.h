@@ -12,7 +12,7 @@ typedef struct {
 
 void LCD_init(LCD_Handle *lcd);
 void LCD_command(LCD_Handle *lcd, uint8_t cmd);
-void pulse_enable(LCD_Handle *lcd);
+void LCD_pulse_enable(LCD_Handle *lcd);
 void LCD_clear(LCD_Handle *lcd);
 void LCD_write_char(LCD_Handle *lcd, uint8_t c);
 void LCD_print(LCD_Handle *lcd, char *s);

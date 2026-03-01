@@ -14,6 +14,7 @@ typedef struct {
 } GPIO_Pin;
 
 void GPIO_init_output(GPIO_Pin pin);
+void GPIO_init_input(GPIO_Pin pin);
 void GPIO_set(GPIO_Pin pin);
 void GPIO_clear(GPIO_Pin pin);
 void GPIO_toggle(GPIO_Pin pin);

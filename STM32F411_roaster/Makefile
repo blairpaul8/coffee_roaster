@@ -10,9 +10,9 @@ CFLAGS = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=softfp \
 
 LDFLAGS = -T linker.ld -nostartfiles -Wl,--gc-sections
 
-SRCS = src/main.c startup_stm32f411.s src/GPIO.c src/lcd.c
+SRCS = src/main.c startup_stm32f411.s src/GPIO.c src/lcd.c src/relay.c
 
-TARGET = blink.elf
+TARGET = roaster.elf
 
 all: $(TARGET)
 
