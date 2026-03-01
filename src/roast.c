@@ -14,6 +14,9 @@
 #include "toggle_heat.h"
 
 int main(int argc, char *argv[]) {
+  
+  atexit(temp_deinit);
+  atexit(pin_deinit);
 
   int increment = 5;
   struct timeval start_time = {0, 0};
@@ -33,6 +36,8 @@ int main(int argc, char *argv[]) {
   bool heat = true;
 
   temp_init();
+  pin_init(27);
+  
 
   // This is for the pre-heat stage press enter once beans are dropped
   getchar();
@@ -41,7 +46,7 @@ int main(int argc, char *argv[]) {
 
     struct timeval curr_time = {0, 0};
     gettimeofday(&curr_time, NULL);
-    double temp = temp_read();
+    double temp = temp_read() * 9 / 5 + 32;
 
     if (temp > ROAST_TEMP) {
       toggle_heat(false);
@@ -50,10 +55,14 @@ int main(int argc, char *argv[]) {
     }
 
     fprintf(file, "%d,%f,%s\n", sec, temp, heat ? "On" : "Off");
+    printf("%d,%f,%s\n", sec, temp, heat ? "On" : "Off");
 
     sleep(1);
-    sec += 1;
+    //sec += 1;
   }
+
+  pin_deinit();
+  temp_deinit();
   fclose(file);
   return EXIT_SUCCESS;
 }

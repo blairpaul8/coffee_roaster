@@ -1,0 +1,5 @@
+time_s,temp_F,heat_on,stage
+0.0,32.0,1,pre
+1.0,32.0,1,pre
+2.0,32.0,1,pre
+3.0,32.0,1,pre

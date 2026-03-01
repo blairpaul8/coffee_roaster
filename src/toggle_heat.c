@@ -20,7 +20,7 @@ int pin_init(int pin) {
 
   req.lineoffsets[0] = pin;
   req.flags = GPIOHANDLE_REQUEST_OUTPUT;
-  req.default_values[0] = 0;
+  req.default_values[0] = 1;
   req.lines = 1;
 
   if (ioctl(chip_fd, GPIO_GET_LINEHANDLE_IOCTL, &req) < 0) {
@@ -35,11 +35,14 @@ int pin_init(int pin) {
 void toggle_heat(bool heat) {
   struct gpiohandle_data data;
 
-  data.values[0] = heat;
+  data.values[0] = !heat;
   if (ioctl(req.fd, GPIOHANDLE_SET_LINE_VALUES_IOCTL, &data) < 0) {
     printf("Failed to toggle heat\n");
     exit(1);
   }
 }
 
-void pin_deinit() { close(req.fd); }
+void pin_deinit() { 
+  toggle_heat(false);
+  close(req.fd); 
+}
