@@ -3,11 +3,17 @@
 <head>
     <title>Roaster</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
-<body style="text-align:center;font-family:sans-serif;">
-    <h1 id="timer">0.0 s</h1>
-    <h2 id="temp">Temp: -- °F</h2>
-    <button id="mainBtn" onclick="handleButton()">Preheat</button>
+
+<body>
+    <div class="container">
+        <h1 id="timer">0.0 s</h1>
+        <h2 id="temp">Temp: -- °F</h2>
+        <h3 id="stage">Stage: Idle</h3>
+
+        <button id="mainBtn" onclick="handleButton()">Preheat</button>
+    </div>
 
 <script src="/static/script.js"></script>
 </body>

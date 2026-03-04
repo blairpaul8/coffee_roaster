@@ -23,6 +23,9 @@ setInterval(() => {
       document.getElementById("temp").innerText =
         "Temp: " + data.temp_f + " °F";
 
+      document.getElementById("stage").innerText =
+            "Stage: " + data.stage.toUpperCase();
+
       if (data.start_time) {
         let elapsed = Date.now() / 1000 - data.start_time;
         document.getElementById("timer").innerText =
