@@ -64,10 +64,6 @@ def heater(on):
 # -------------------------
 def roast_loop():
     timestamp = time.strftime("%Y%m%d_%H%M%S")
-    os.makedirs("roast_csv", exist_ok=True)
-    csv_file = open(f"roast_csv/roast_{timestamp}.csv", "w", newline="")
-    writer = csv.writer(csv_file)
-    writer.writerow(["time_s", "temp_F", "heat_on", "stage"])
 
     roast_state["start_time"] = time.time()
 
@@ -95,13 +91,10 @@ def roast_loop():
         elif stage == "brown" and elapsed > 240:
             roast_state["stage"] = "dev"
 
-        writer.writerow([round(elapsed, 1), temp_f, int(roast_state["heat_on"]), stage])
-        csv_file.flush()
 
         time.sleep(1)
 
     heater(False)
-    csv_file.close()
 
 
 # -------------------------
