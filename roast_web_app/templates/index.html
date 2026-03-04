@@ -6,13 +6,64 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <div class="flex flex-col justify-center">
-        <h1 id="timer">0.0 s</h1>
-        <h2 id="temp">Temp: -- °F</h2>
-        <h3 id="stage">Stage: Idle</h3>
+<body class="min-h-screen 
+             bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900
+             flex items-center justify-center
+             p-6">
 
-        <button id="mainBtn" class="bg-sky-300 text-black font-mono text-lg" onclick="handleButton()">Preheat</button>
+    <!-- Card Container -->
+    <div class="w-full max-w-sm
+                bg-white/10 backdrop-blur-lg
+                rounded-3xl
+                shadow-2xl
+                border border-white/20
+                p-8
+                text-center
+                text-white">
+
+        <!-- Title -->
+        <h1 class="text-sm uppercase tracking-widest text-slate-300 mb-6">
+            Coffee Roaster
+        </h1>
+
+        <!-- Timer (Hero Element) -->
+        <div id="timer"
+             class="text-5xl font-bold tracking-tight mb-4">
+            0.0 s
+        </div>
+
+        <!-- Temperature -->
+        <div id="temp"
+             class="text-lg text-slate-300 mb-2">
+            Temp: -- °F
+        </div>
+
+        <!-- Stage -->
+        <div id="stage"
+             class="text-sm uppercase tracking-wide text-sky-300 mb-8">
+            Stage: Idle
+        </div>
+
+        <!-- Button -->
+        <button
+            id="mainBtn"
+            onclick="handleButton()"
+            class="w-3/4
+                   mx-auto
+                   bg-sky-500 hover:bg-sky-600 active:bg-sky-700
+                   text-white
+                   font-semibold
+                   text-lg
+                   py-4
+                   rounded-2xl
+                   shadow-lg
+                   transition-all
+                   duration-200
+                   transform
+                   active:scale-95">
+            Preheat
+        </button>
+
     </div>
 
 <script src="/static/script.js"></script>
