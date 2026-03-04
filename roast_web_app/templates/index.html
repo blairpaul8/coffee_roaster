@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Roaster</title>
+    <title>Coffee Roaster</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-    <div class="container">
+    <div class="flex flex-col justify-center">
         <h1 id="timer">0.0 s</h1>
         <h2 id="temp">Temp: -- °F</h2>
         <h3 id="stage">Stage: Idle</h3>
 
-        <button id="mainBtn" onclick="handleButton()">Preheat</button>
+        <button id="mainBtn" class="bg-sky-300 text-black font-mono text-lg" onclick="handleButton()">Preheat</button>
     </div>
 
 <script src="/static/script.js"></script>
