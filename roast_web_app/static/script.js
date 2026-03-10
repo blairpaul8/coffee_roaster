@@ -34,15 +34,19 @@ setInterval(() => {
     });
 }, 1000);
 
-function resetButton() {
-  fetch('/reset', { method: 'POST' });
+async function resetButton() {
+  try {
+    await fetch('/reset', { method: 'POST' });
 
-  // Reset frontend state
-  state = "idle";
+    // Reset frontend state
+    state = "idle";
 
-  // Reset UI
-  document.getElementById("mainBtn").innerText = "Preheat";
-  document.getElementById("timer").innerText = "0.0 s";
-  document.getElementById("stage").innerText = "Stage: IDLE";
+    // Reset UI
+    document.getElementById("mainBtn").innerText = "Preheat";
+    document.getElementById("timer").innerText = "0.0 s";
+    document.getElementById("stage").innerText = "Stage: IDLE";
+  } catch (err) {
+    console.error("Reset failed:", err);
+  }
 }
 

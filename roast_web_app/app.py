@@ -3,8 +3,6 @@ import threading
 import time
 import spidev
 import RPi.GPIO as GPIO
-import csv
-import os
 
 app = Flask(__name__)
 
@@ -17,9 +15,10 @@ spi.max_speed_hz = 1000000
 spi.mode = 0b00
 
 HEAT_RELAY = 27
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(HEAT_RELAY, GPIO.OUT)
-GPIO.output(HEAT_RELAY, GPIO.HIGH)  # OFF
+GPIO.output(HEAT_RELAY, GPIO.HIGH)  # heater OFF
 
 # -------------------------
 # Roast Configuration
@@ -40,42 +39,58 @@ roast_state = {
 }
 
 lock = threading.Lock()
+roast_thread = None
 
 
 # -------------------------
 # Hardware Functions
 # -------------------------
 def read_temp():
-    raw = spi.xfer2([0x00, 0x00])
-    value = (raw[0] << 8) | raw[1]
-    if value & 0x04:
+    try:
+        raw = spi.xfer2([0x00, 0x00])
+        value = (raw[0] << 8) | raw[1]
+
+        if value & 0x04:
+            return None
+
+        value >>= 3
+        return value * 0.25
+
+    except:
         return None
-    value >>= 3
-    return value * 0.25
 
 
 def heater(on):
     GPIO.output(HEAT_RELAY, GPIO.LOW if on else GPIO.HIGH)
-    roast_state["heat_on"] = on
+
+    with lock:
+        roast_state["heat_on"] = on
 
 
 # -------------------------
 # Roast Thread
 # -------------------------
 def roast_loop():
-    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    with lock:
+        roast_state["start_time"] = time.time()
 
-    roast_state["start_time"] = time.time()
+    while True:
+        with lock:
+            if not roast_state["running"]:
+                break
+            stage = roast_state["stage"]
+            start_time = roast_state["start_time"]
 
-    while roast_state["running"]:
         temp_c = read_temp()
         if temp_c is None:
+            time.sleep(1)
             continue
 
         temp_f = temp_c * 9 / 5 + 32
-        roast_state["temp_f"] = round(temp_f, 1)
 
-        stage = roast_state["stage"]
+        with lock:
+            roast_state["temp_f"] = round(temp_f, 1)
+
         setpoint = setpoints.get(stage, 0)
 
         if temp_f > setpoint:
@@ -83,14 +98,15 @@ def roast_loop():
         else:
             heater(True)
 
-        elapsed = time.time() - roast_state["start_time"]
+        elapsed = time.time() - start_time
 
         # Stage timing
-        if stage == "dry" and elapsed > 120:
-            roast_state["stage"] = "brown"
-        elif stage == "brown" and elapsed > 240:
-            roast_state["stage"] = "dev"
+        with lock:
+            if stage == "dry" and elapsed > 120:
+                roast_state["stage"] = "brown"
 
+            elif stage == "brown" and elapsed > 240:
+                roast_state["stage"] = "dev"
 
         time.sleep(1)
 
@@ -107,30 +123,69 @@ def home():
 
 @app.route("/preheat", methods=["POST"])
 def preheat():
-    roast_state["running"] = True
-    roast_state["stage"] = "pre"
-    threading.Thread(target=roast_loop).start()
+    global roast_thread
+
+    with lock:
+        if roast_state["running"]:
+            return jsonify({"status": "already running"})
+
+        roast_state["running"] = True
+        roast_state["stage"] = "pre"
+
+    roast_thread = threading.Thread(target=roast_loop, daemon=True)
+    roast_thread.start()
+
     return jsonify({"status": "preheating"})
 
 
 @app.route("/start", methods=["POST"])
 def start():
-    roast_state["stage"] = "dry"
-    roast_state["start_time"] = time.time()
+    with lock:
+        roast_state["stage"] = "dry"
+        roast_state["start_time"] = time.time()
+
     return jsonify({"status": "roasting"})
 
 
 @app.route("/stop", methods=["POST"])
 def stop():
-    roast_state["running"] = False
-    roast_state["stage"] = "idle"
+    with lock:
+        roast_state["running"] = False
+        roast_state["stage"] = "idle"
+
+    heater(False)
+
     return jsonify({"status": "stopped"})
+
+
+@app.route("/reset", methods=["POST"])
+def reset():
+    global roast_thread
+
+    with lock:
+        roast_state["running"] = False
+        roast_state["stage"] = "idle"
+        roast_state["start_time"] = None
+        roast_state["temp_f"] = 0
+        roast_state["heat_on"] = False
+
+    heater(False)
+
+    return jsonify({"status": "reset"})
 
 
 @app.route("/status")
 def status():
-    return jsonify(roast_state)
+    with lock:
+        return jsonify(roast_state)
 
 
+# -------------------------
+# Main
+# -------------------------
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    try:
+        app.run(host="0.0.0.0", port=5000, debug=False)
+    finally:
+        heater(False)
+        GPIO.cleanup()
