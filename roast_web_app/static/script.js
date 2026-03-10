@@ -24,7 +24,7 @@ setInterval(() => {
         "Temp: " + data.temp_f + " °F";
 
       document.getElementById("stage").innerText =
-            "Stage: " + data.stage.toUpperCase();
+        "Stage: " + data.stage.toUpperCase();
 
       if (data.start_time) {
         let elapsed = Date.now() / 1000 - data.start_time;
@@ -33,4 +33,16 @@ setInterval(() => {
       }
     });
 }, 1000);
+
+function resetButton() {
+  fetch('/reset', { method: 'POST' });
+
+  // Reset frontend state
+  state = "idle";
+
+  // Reset UI
+  document.getElementById("mainBtn").innerText = "Preheat";
+  document.getElementById("timer").innerText = "0.0 s";
+  document.getElementById("stage").innerText = "Stage: IDLE";
+}
 
