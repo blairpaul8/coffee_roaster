@@ -28,13 +28,13 @@
 
         <!-- Timer (Hero Element) -->
         <div id="timer"
-             class="text-5xl font-bold tracking-tight mb-4">
+             class="text-4xl font-bold tracking-tight mb-4">
             0.0 s
         </div>
 
         <!-- Temperature -->
         <div id="temp"
-             class="text-lg text-slate-300 mb-2">
+             class="text-xl text-slate-300 mb-2">
             Temp: -- °F
         </div>
 
@@ -63,6 +63,25 @@
                    active:scale-95">
             Preheat
         </button>
+        <button
+            id="resetBtn"
+            onclick="resetButton()"
+            class="w-3/4
+                   mx-auto
+                   bg-red-500 hover:bg-red-600 active:bg-red-700
+                   text-white
+                   font-semibold
+                   text-lg
+                   py-4
+                   rounded-2xl
+                   shadow-lg
+                   transition-all
+                   duration-200
+                   transform
+                   active:scale-95">
+            Reset
+        </button>
+
 
     </div>
 
